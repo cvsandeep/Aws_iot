@@ -56,12 +56,11 @@ robot.configureMQTTOperationTimeout(5)  # 5 sec
 logger.info('completed setting up mqtt client')
 
 # Connect and subscribe to AWS IoT
-robot.on_connect = on_connect
 
 robot.connect()
 time.sleep(1)
 
-robot.subscribe(topic, 1, customCallback)
+robot.subscribe(sendtopic, 1, customCallback)
 
 #robot.loop()
 time.sleep(1)
