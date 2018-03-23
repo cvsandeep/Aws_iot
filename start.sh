@@ -11,11 +11,11 @@ fi
 if [ ! -d ./aws-iot-device-sdk-python ]; then
   printf "\nInstalling AWS SDK...\n"
   git clone https://github.com/aws/aws-iot-device-sdk-python.git
-  pushd aws-iot-device-sdk-python
+  cd aws-iot-device-sdk-python
   python setup.py install
-  popd
+  cd ..
 fi
 
 # run pub/sub sample app using certificates downloaded in package
-printf "\nRunning pub/sub sample application...\n"
+print "\nRunning pub/sub sample application...\n"
 python aws-iot-device-sdk-python/samples/basicPubSub/basicPubSub.py -e a2kc9la4cp40qj.iot.us-east-1.amazonaws.com -r root-CA.crt -c ir2_proj.cert.pem -k ir2_proj.private.key
