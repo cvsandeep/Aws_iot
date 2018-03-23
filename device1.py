@@ -29,6 +29,13 @@ def logger_init():
     logger.info('******************************************')
     logger.info('.......Starting up proj Service........')
     
+def customCallback(client, userdata, message):
+    print("Received a new message: ")
+    print(message.payload)
+    print("from topic: ")
+    print(message.topic)
+    print("--------------\n\n")
+
 
 # Initializing Logger      
 #logger_init()
@@ -49,11 +56,16 @@ robot.configureMQTTOperationTimeout(5)  # 5 sec
 logger.info('completed setting up mqtt client')
 
 # Connect and subscribe to AWS IoT
+robot.on_connect = on_connect
+
 robot.connect()
+time.sleep(1)
+
+robot.subscribe(topic, 1, customCallback)
 
 #robot.loop()
 time.sleep(1)
-robot.publish(sendtopic, 'MyHomeService started',1)
+robot.publish(logtopic, 'MyHomeService started',1)
 
 #loops for ever so that connection will be present
 while True:
