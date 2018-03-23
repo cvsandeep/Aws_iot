@@ -8,10 +8,12 @@ cert_path = "/home/pi/certs/"
 host = "a2kc9la4cp40qj.iot.us-east-1.amazonaws.com"
 returntopic = "$aws/things/ir2_proj/shadow/return"
 sendtopic = "$aws/things/ir2_proj/shadow/send"
+logtopic = "$aws/things/ir2_proj/log"
 root_cert = "/home/pi/certs/root-CA.crt"
 cert_file = cert_path + "ir2_proj.cert.pem"
 key_file = cert_path + "ir2_proj.private.key"
 
+logger = logging.getLogger('Robot')
 
 # Intializes and sets Logging for the service
 def logger_init():
@@ -29,11 +31,11 @@ def logger_init():
     
 
 # Initializing Logger      
-logger_init()
-logger.info('setting up mqtt client')
+#logger_init()
+#logger.info('setting up mqtt client')
 
 #starting service
-robot = AWSIoTMQTTClient(clientId)
+robot = AWSIoTMQTTClient(host)
 robot.configureEndpoint(host, 8883)
 robot.configureCredentials(root_cert, key_file, cert_file)
 logger.info('completed setting up mqtt client')
@@ -47,13 +49,13 @@ robot.configureMQTTOperationTimeout(5)  # 5 sec
 logger.info('completed setting up mqtt client')
 
 # Connect and subscribe to AWS IoT
-myAWSIoTMQTTClient.connect()
+robot.connect()
 
-robot.loop()
+#robot.loop()
 time.sleep(1)
-robot.publish(sendtopic, 'MyHomeService started')
+robot.publish(sendtopic, 'MyHomeService started',1)
 
 #loops for ever so that connection will be present
 while True:
-	robot.loop()
+	#robot.loop()
 	time.sleep(1)
